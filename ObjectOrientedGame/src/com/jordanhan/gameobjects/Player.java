@@ -12,7 +12,7 @@ public class Player extends GameObject
 {
     //Attributes
     private int health;
-    private double xSpeed = 0.8;
+    private double xSpeed = 0.2;
     private double xSpeedMax = 2.5;
     private double gravity = 9.81 / 100;
     private double maxGravity = 8.0;
