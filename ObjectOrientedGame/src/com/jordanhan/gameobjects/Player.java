@@ -16,8 +16,7 @@ public class Player extends GameObject
     private double xSpeedMax = 2.5;
     private double gravity = 9.81 / 100;
     private double maxGravity = 8.0;
-    private double jumpStrength = 10.0;
-    private double jumpCurrent = jumpStrength;
+    private double jumpStrength = 6.0;
     private double dx;
     private double dy;
     private boolean FALLING;
@@ -87,9 +86,13 @@ public class Player extends GameObject
         
         if(cBottomLeft || cBottomRight)
         {
-            System.out.println("Collision Bottom");
-            checkY = y;
-            FALLING = false;
+            if(!JUMPING)
+            {
+                System.out.println("Collision Bottom");
+                checkY = y;
+                FALLING = false;
+                dy = 0;
+            }//End if
         }//End if
         else
         {
@@ -99,8 +102,16 @@ public class Player extends GameObject
         //If the player is falling, apply gravity
         if(FALLING)
         {
+            if(JUMPING && gravity >= jumpStrength)
+            {
+                gravity = 0;
+                dy = 0;
+                JUMPING = false;
+            }//End if
             if(gravity <= maxGravity)
-            gravity += 9.81 / 100;
+            {
+                gravity += 9.81 / 100;
+            }//End if
         }//End if
         else
         {
@@ -163,7 +174,12 @@ public class Player extends GameObject
     //Make the player jump
     public void jump(boolean move)
     {
-        
+        if(move == true && FALLING == false && JUMPING == false)
+        {
+            JUMPING = true;
+            FALLING = true;
+            dy -= jumpStrength;
+        }//End if
     }//End jump
     
     //Check for a collision against all enemies
