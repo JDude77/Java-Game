@@ -3,6 +3,7 @@ package com.jordanhan.gameobjects;
 import com.jordanhan.tilemap.TileMapManager;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.HashMap;
 
 /**
  *
@@ -24,11 +25,12 @@ public class Player extends GameObject
     private boolean MOVE_RIGHT;
     private boolean STANDING;
     private boolean JUMPING;
+    private HashMap<String, Sprite> animations = new HashMap();
     
     //Constructor
-    public Player(String spriteFile, TileMapManager tmm)
+    public Player(TileMapManager tmm)
     {
-        super(spriteFile, tmm);
+        super(tmm);
         
         x = 100;
         y = 100;
@@ -49,6 +51,18 @@ public class Player extends GameObject
     {
         return y;
     }//End y getter
+    public void setAnimations(String direction, Sprite s)
+    {
+        animations.put(direction, s);
+        
+        //Static is default sprite
+        if(direction.equals("STATIC"))
+        {
+            sprite = s;
+            cHeight = sprite.getHeight();
+            cWidth = sprite.getWidth();
+        }//End if
+    }//End Animations Setter
     
     //Behaviours
     //Update the player
@@ -91,6 +105,7 @@ public class Player extends GameObject
                 System.out.println("Collision Bottom");
                 checkY = y;
                 FALLING = false;
+                STANDING = true;
                 dy = 0;
             }//End if
         }//End if
@@ -132,7 +147,26 @@ public class Player extends GameObject
     {
         super.draw(g);
         
-        g.drawImage(sprite, (int) x, (int) y, null);
+        if(STANDING)
+        {
+            sprite = animations.get("STATIC");
+        }//End else if
+        if(MOVE_RIGHT)
+        {
+            sprite = animations.get("RIGHT");
+        }//End if
+        if(MOVE_LEFT)
+        {
+            sprite = animations.get("LEFT");
+        }//End else if
+        if(FALLING)
+        {
+            sprite = animations.get("FALL");
+        }//End else if
+        if(JUMPING)
+        {
+            sprite = animations.get("JUMP");
+        }//End else if
     }//End draw
     
     //Move the player left
@@ -148,6 +182,7 @@ public class Player extends GameObject
         }//End if
         else
         {
+            MOVE_LEFT = false;
             STANDING = true;
             dx = 0;
         }//End else
@@ -166,6 +201,7 @@ public class Player extends GameObject
         }//End if
         else
         {
+            MOVE_RIGHT = false;
             STANDING = true;
             dx = 0;
         }//End else

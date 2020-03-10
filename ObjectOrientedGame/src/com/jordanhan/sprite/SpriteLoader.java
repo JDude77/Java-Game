@@ -1,6 +1,6 @@
 package com.jordanhan.sprite;
 
-import com.jordanhan.sprite.Sprite;
+import com.jordanhan.gameobjects.Sprite;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -32,7 +32,7 @@ public class SpriteLoader
     public Sprite loadFileSequence(String fileName, int numberOfFrames, String type)
     {
         //???
-        Sprite s = new Sprite(10);
+        Sprite s = new Sprite(7);
         //Buffered image says bi rights
         BufferedImage bi;
         //No need to swear

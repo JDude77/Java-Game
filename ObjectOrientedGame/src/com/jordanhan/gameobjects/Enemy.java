@@ -9,8 +9,8 @@ import com.jordanhan.tilemap.TileMapManager;
 public class Enemy extends GameObject
 {
     //Constructor
-    public Enemy(String fileName, TileMapManager tmm)
+    public Enemy(TileMapManager tmm)
     {
-        super(fileName, tmm);
+        super(tmm);
     }//End Constructor
 }

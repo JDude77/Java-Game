@@ -9,8 +9,8 @@ import com.jordanhan.tilemap.TileMapManager;
 public class Collectable extends GameObject
 {
     //Constructor 
-    public Collectable(String fileName, TileMapManager tmm)
+    public Collectable(TileMapManager tmm)
     {
-        super(fileName, tmm);
+        super(tmm);
     }//End Constructor
 }

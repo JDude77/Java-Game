@@ -3,7 +3,9 @@ package com.jordanhan.state;
 import com.jordanhan.gameobjects.Collectable;
 import com.jordanhan.gameobjects.Enemy;
 import com.jordanhan.gameobjects.Player;
+import com.jordanhan.gameobjects.Sprite;
 import com.jordanhan.main.LevelPanel;
+import com.jordanhan.sprite.SpriteLoader;
 import com.jordanhan.tilemap.TileMapManager;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -22,14 +24,16 @@ public class Level1 extends LevelState
     private Enemy[] enemies;
     private Collectable[] collectables;
     private TileMapManager tmm;
+    private SpriteLoader sp;
     
     //Constructor
     public Level1(LevelManager lm)
     {
         super(lm);
         tmm = new TileMapManager();
-        p = new Player("/Images/player.png", tmm);
+        p = new Player(tmm);
         win = false;
+        initPlayer();
         init();
         initEnemies();
         initCollectables();
@@ -49,7 +53,7 @@ public class Level1 extends LevelState
         
         for (int i = 0; i < enemies.length; i++)
         {
-            enemies[i] = new Enemy("/Images/enemy.png", tmm);
+            enemies[i] = new Enemy(tmm);
         }//End for
     }//End initEnemies
     
@@ -60,9 +64,26 @@ public class Level1 extends LevelState
         
         for (int i = 0; i < collectables.length; i++)
         {
-            collectables[i] = new Collectable("/Images/collectable.png", tmm);
+            collectables[i] = new Collectable(tmm);
         }//End for
     }//End initCollectables
+    
+    //Initialise the player
+    private void initPlayer()
+    {
+        Sprite s;
+        SpriteLoader sm = new SpriteLoader("/images/level1/character");
+        s = sm.loadFileSequence("right", 4, "png");
+        p.setAnimations("RIGHT", s);
+        s = sm.loadFileSequence("left", 4, "png");
+        p.setAnimations("LEFT", s);
+        s = sm.loadFileSequence("idle", 3, "png");
+        p.setAnimations("STATIC", s);
+        s = sm.loadFileSequence("jump", 3, "png");
+        p.setAnimations("JUMP", s);
+        s = sm.loadFileSequence("fall", 3, "png");
+        p.setAnimations("FALL", s);
+    }//End initPlayer
     
     //Get key presses from the user
     @Override
